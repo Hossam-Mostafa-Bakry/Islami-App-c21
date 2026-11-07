@@ -5,6 +5,20 @@ abstract class AppThemeManager {
   static ThemeData getThemeData() => ThemeData(
     primaryColor: AppColors.primary,
     scaffoldBackgroundColor: AppColors.darkBlack,
+    appBarTheme: AppBarThemeData(
+      elevation: 0,
+      surfaceTintColor: Colors.transparent,
+      backgroundColor: Colors.transparent,
+      titleTextStyle: TextStyle(
+        fontFamily: "Janna",
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
+        color: AppColors.primary,
+      ),
+      iconTheme: IconThemeData(
+        color: AppColors.primary,
+      )
+    ),
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       type: BottomNavigationBarType.fixed,
       backgroundColor: AppColors.primary,
