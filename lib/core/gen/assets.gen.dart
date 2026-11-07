@@ -50,9 +50,17 @@ class $AssetsIconsGen {
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  /// File path: assets/images/bottom_decoration_img.png
+  AssetGenImage get bottomDecorationImg =>
+      const AssetGenImage('assets/images/bottom_decoration_img.png');
+
   /// File path: assets/images/header_img.png
   AssetGenImage get headerImg =>
       const AssetGenImage('assets/images/header_img.png');
+
+  /// File path: assets/images/left_corner_img.png
+  AssetGenImage get leftCornerImg =>
+      const AssetGenImage('assets/images/left_corner_img.png');
 
   /// File path: assets/images/most_recent_img.png
   AssetGenImage get mostRecentImg =>
@@ -62,15 +70,22 @@ class $AssetsImagesGen {
   AssetGenImage get quranBackgroundImg =>
       const AssetGenImage('assets/images/quran_background_img.png');
 
+  /// File path: assets/images/right_corner_img.png
+  AssetGenImage get rightCornerImg =>
+      const AssetGenImage('assets/images/right_corner_img.png');
+
   /// File path: assets/images/splash_logo.svg
   SvgGenImage get splashLogo =>
       const SvgGenImage('assets/images/splash_logo.svg');
 
   /// List of all assets
   List<dynamic> get values => [
+    bottomDecorationImg,
     headerImg,
+    leftCornerImg,
     mostRecentImg,
     quranBackgroundImg,
+    rightCornerImg,
     splashLogo,
   ];
 }
