@@ -1,0 +1,46 @@
+name: islami_app_c21
+description: "A new Flutter project."
+
+
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.12.2
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  flutter_gen: ^5.15.0
+  flutter_svg: ^2.3.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  build_runner: ^2.12.0
+  flutter_gen_runner:
+
+flutter_gen:
+  output: lib/core/gen/
+
+  integrations:
+    image: true
+    flutter_svg: true
+
+
+flutter:
+
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/icons/
+
+
+
+  fonts:
+    - family: Janna
+      fonts:
+        - asset: assets/fonts/Janna.ttf
