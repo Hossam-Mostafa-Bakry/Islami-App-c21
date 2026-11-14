@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:islami_app_c21/core/gen/assets.gen.dart';
 import 'package:islami_app_c21/core/theme/app_colors.dart';
+import 'package:islami_app_c21/core/utils/shared_pref_storge_utils.dart';
 import 'package:islami_app_c21/model/sura_data_model.dart';
 import 'package:islami_app_c21/modules/quran/quran_details_view.dart';
+import 'package:islami_app_c21/modules/quran/widgets/most_recently_card.dart';
 import 'package:islami_app_c21/modules/quran/widgets/sura_item.dart';
 
 class QuranView extends StatefulWidget {
@@ -629,13 +631,39 @@ class _QuranViewState extends State<QuranView> {
       ayaNumbers: "6",
     ),
   ];
-
   List<SuraDataModel> _filteredSuraList = [];
+
+  /// RAM
+  /// Shared Preference
+  List<SuraDataModel> _mostRecentlyList = [];
 
   @override
   void initState() {
     super.initState();
+    _loadRecentlyList();
     _filteredSuraList = _surasList;
+  }
+
+  // SOLID Principles
+  // 1- Single Responsibility
+
+  void _loadRecentlyList() async {
+    final recentlyList = await SharedPrefStorgeUtils.getRecentlyList();
+
+    final newList = recentlyList.map((suraNumber) {
+      return _surasList.firstWhere((element) {
+        return element.id == suraNumber;
+      });
+    }).toList();
+
+    setState(() {
+      _mostRecentlyList = newList;
+    });
+  }
+
+  void _addSuraToList(SuraDataModel data) {
+    SharedPrefStorgeUtils.addSura(data.id);
+    _loadRecentlyList();
   }
 
   void _onSearch(String value) {
@@ -709,52 +737,36 @@ class _QuranViewState extends State<QuranView> {
               spacing: 10,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: Text("Most Recently", style: textTheme.titleMedium),
-                ),
-                SizedBox(
-                  height: 150,
-                  child: ListView.separated(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      return Container(
-                        padding: EdgeInsets.all(14),
-                        decoration: BoxDecoration(
-                          color: AppColors.primary,
-                          borderRadius: BorderRadius.circular(20),
+                if (_mostRecentlyList.isNotEmpty)
+                  Column(
+                    spacing: 10,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                        child: Text(
+                          "Most Recently",
+                          style: textTheme.titleMedium,
                         ),
-                        child: Row(
-                          children: [
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Text(
-                                  "Al-Anbiya",
-                                  style: textTheme.headlineSmall,
-                                ),
-                                Text(
-                                  "الأنبياء",
-                                  style: textTheme.headlineSmall,
-                                ),
-                                Text(
-                                  "112 Verses  ",
-                                  style: textTheme.titleSmall,
-                                ),
-                              ],
-                            ),
-                            Assets.images.mostRecentImg.image(),
-                          ],
+                      ),
+                      SizedBox(
+                        height: 150,
+                        child: ListView.separated(
+                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            return MostRecentlyCard(
+                              dataModel: _mostRecentlyList[index],
+                            );
+                          },
+                          separatorBuilder: (context, index) {
+                            return SizedBox(width: 10);
+                          },
+                          itemCount: _mostRecentlyList.length,
                         ),
-                      );
-                    },
-                    separatorBuilder: (context, index) {
-                      return SizedBox(width: 10);
-                    },
-                    itemCount: 5,
+                      ),
+                    ],
                   ),
-                ),
               ],
             ),
             Column(
@@ -773,6 +785,7 @@ class _QuranViewState extends State<QuranView> {
                     return SuraItem(
                       suraDataModel: _filteredSuraList[index],
                       onTap: () {
+                        _addSuraToList(_filteredSuraList[index]);
                         Navigator.pushNamed(
                           context,
                           QuranDetailsView.routeName,
