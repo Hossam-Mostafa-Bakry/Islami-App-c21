@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:islami_app_c21/core/gen/assets.gen.dart';
-import 'package:islami_app_c21/modules/layout/pages/layout_view.dart';
+
+import 'package:islami_app_c21/modules/on_boarding/all_onboarding.dart';
 
 class SplashView extends StatefulWidget {
   static const String routeName = '/splash';
@@ -24,7 +25,7 @@ class _SplashViewState extends State<SplashView> {
     Future.delayed(Duration(seconds: 2), () {
       Navigator.of(
         context,
-      ).pushNamedAndRemoveUntil(LayoutView.routeName, (route) => false);
+      ).pushNamedAndRemoveUntil(AllOnboarding.routeName, (route) => false);
     });
   }
 
